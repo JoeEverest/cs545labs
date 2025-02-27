@@ -2,16 +2,30 @@
 
     import jakarta.persistence.*;
 
+    import java.util.List;
+
     @Entity
     public class Post {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        private Long id;
+        Long id;
 
         String title;
         String content;
 
+        @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+        @JoinColumn(name = "post_id")
+        List<Comment> comments;
+
         public Post() {
+        }
+
+        public List<Comment> getComments() {
+            return comments;
+        }
+
+        public void setComments(List<Comment> comments) {
+            this.comments = comments;
         }
 
         public String getTitle() {

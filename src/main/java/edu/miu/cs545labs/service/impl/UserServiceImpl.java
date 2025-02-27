@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getUsersWithMoreThanNPosts(int n) {
+        return userRepo.findAll().stream().filter(user -> user.getPosts().size() > n).toList();
+    }
+
+    @Override
     public List<Post> getPostsByUserId(long id) {
         return userRepo.findById(id).map(User::getPosts).orElse(null);
     }

@@ -12,6 +12,7 @@ public interface UserService {
     User updateUser(long id, User user);
     void deleteUser(long id);
     List<User> getUsersWithPosts();
+    List<User> getUsersWithMoreThanNPosts(int n);
     List<Post> getPostsByUserId(long id);
     List<Post> searchAuthorPosts(String search);
 }
