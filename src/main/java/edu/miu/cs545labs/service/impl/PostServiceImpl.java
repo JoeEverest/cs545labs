@@ -27,6 +27,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post getPostByTitle(String title) {
+        return postRepo.findAll().stream().filter(post -> post.getTitle().equals(title)).findFirst().orElse(null);
+    }
+
+    @Override
     @Transactional
     public Post updatePost(long id, Post post) {
         Post existingPost = postRepo.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
