@@ -17,17 +17,11 @@ public class User {
     @JoinColumn(name = "user_id")
     List<Post> posts;
 
-    public User(String name) {
-        this.name = name;
-    }
 
     public User() {
 
     }
 
-    public long getId() {
-        return id;
-    }
 
     public void setId(long id) {
         this.id = id;

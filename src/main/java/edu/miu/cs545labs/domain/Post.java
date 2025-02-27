@@ -14,20 +14,6 @@
         public Post() {
         }
 
-        public Post(long id, String title, String content, String author) {
-            this.id = id;
-            this.title = title;
-            this.content = content;
-        }
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
         public String getTitle() {
             return title;
         }

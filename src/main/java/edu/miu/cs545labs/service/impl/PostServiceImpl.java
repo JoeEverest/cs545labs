@@ -28,12 +28,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Post createPost(Post post) {
-        return postRepo.save(post);
-    }
-
-    @Override
-    @Transactional
     public Post updatePost(long id, Post post) {
         Post existingPost = postRepo.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
         existingPost.setTitle(post.getTitle());

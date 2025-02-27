@@ -39,4 +39,14 @@ public class UserController {
     public List<Post> getPostsByUserId(@PathVariable long id) {
         return userService.getPostsByUserId(id);
     }
+
+    @GetMapping("/search")
+    public List<Post> searchAuthorPosts(@RequestParam String search) {
+        return userService.searchAuthorPosts(search);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+    }
 }
