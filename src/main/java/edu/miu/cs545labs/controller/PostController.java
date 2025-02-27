@@ -1,7 +1,9 @@
 package edu.miu.cs545labs.controller;
 
 import edu.miu.cs545labs.domain.Post;
+import edu.miu.cs545labs.domain.User;
 import edu.miu.cs545labs.service.PostService;
+import edu.miu.cs545labs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,15 +15,11 @@ public class PostController {
 
     @Autowired
     PostService postService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping()
-    public List<Post> getAllPosts(@RequestParam(required = false) String author, @RequestParam(required = false) String authorSearch) {
-        if (author != null) {
-            return postService.getPostsByAuthor(author);
-        }
-        if(authorSearch != null) {
-            return postService.searchAuthorPosts(authorSearch);
-        }
+    public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
@@ -31,8 +29,14 @@ public class PostController {
     }
 
     @PostMapping()
-    public Post createPost(@RequestBody Post post) {
-        return postService.createPost(post);
+    public User addPost(@RequestParam() long userId, @RequestBody Post post) {
+        User user = userService.getUserById(userId);
+        System.out.println("User: " + user);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        user.getPosts().add(post);
+        return userService.updateUser(userId, user);
     }
 
     @PutMapping("/{id}")

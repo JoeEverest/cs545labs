@@ -3,10 +3,12 @@ package edu.miu.cs545labs.service.impl;
 import edu.miu.cs545labs.domain.Post;
 import edu.miu.cs545labs.repository.PostRepo;
 import edu.miu.cs545labs.service.PostService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -21,34 +23,31 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getPostById(long id) {
-        return postRepo.findById(id);
+        return postRepo.findById(id).orElse(null);
     }
 
     @Override
-    public List<Post> getPostsByAuthor(String author) {
-        return postRepo.findByAuthor(author);
-    }
-
-    @Override
-    public List<Post> searchAuthorPosts(String search) {
-        return postRepo.searchAuthor(search);
-    }
-
-    @Override
+    @Transactional
     public Post createPost(Post post) {
-        var size = postRepo.findAll().size();
-        Post newPost = new Post(size+1, post.getTitle(), post.getContent(), post.getAuthor());
-        postRepo.save(newPost);
-        return newPost;
+        return postRepo.save(post);
     }
 
     @Override
+    @Transactional
     public Post updatePost(long id, Post post) {
-        return postRepo.update(id, post);
+        Post existingPost = postRepo.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        existingPost.setTitle(post.getTitle());
+        existingPost.setContent(post.getContent());
+        return postRepo.save(existingPost);
     }
 
     @Override
+    @Transactional
     public void deletePost(long id) {
-        postRepo.delete(id);
+        if (postRepo.existsById(id)) {
+            postRepo.deleteById(id);
+        } else {
+            throw new RuntimeException("Post not found");
+        }
     }
 }
