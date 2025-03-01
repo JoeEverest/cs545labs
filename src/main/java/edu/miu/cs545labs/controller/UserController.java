@@ -1,5 +1,6 @@
 package edu.miu.cs545labs.controller;
 
+import edu.miu.cs545labs.annotations.ExecutionTime;
 import edu.miu.cs545labs.domain.Post;
 import edu.miu.cs545labs.domain.User;
 import edu.miu.cs545labs.service.UserService;
@@ -21,6 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @ExecutionTime
     public User getUserById(@PathVariable long id) {
         return userService.getUserById(id);
     }
