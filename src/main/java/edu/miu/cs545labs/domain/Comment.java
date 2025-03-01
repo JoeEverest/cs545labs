@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    long id;
     private String name;
 
     public Comment() {
