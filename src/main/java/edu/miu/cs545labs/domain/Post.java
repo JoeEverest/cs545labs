@@ -20,6 +20,10 @@
         public Post() {
         }
 
+        public Long getId() {
+            return id;
+        }
+
         public List<Comment> getComments() {
             return comments;
         }

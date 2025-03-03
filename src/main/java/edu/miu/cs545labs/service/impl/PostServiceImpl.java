@@ -27,8 +27,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPostByTitle(String title) {
-        return postRepo.findAll().stream().filter(post -> post.getTitle().equals(title)).findFirst().orElse(null);
+    public List<Post> getPostByTitle(String title) {
+        return postRepo.findByTitle(title);
     }
 
     @Override

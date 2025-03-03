@@ -28,7 +28,10 @@ public class UserController {
     }
 
     @GetMapping("/posts")
-    public List<User> getUsersWithPosts() {
+    public List<User> getUsersWithPosts(@RequestParam(required = false) int count) {
+        if (count != 0) {
+            return userService.getUsersWithMoreThanNPosts(count);
+        }
         return userService.getUsersWithPosts();
     }
 
