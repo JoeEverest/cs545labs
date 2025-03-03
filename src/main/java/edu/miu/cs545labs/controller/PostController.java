@@ -17,9 +17,9 @@ public class PostController {
 
     @Autowired
     PostService postService;
+
     @Autowired
     private UserService userService;
-
 
     @GetMapping()
     public List<Post> getAllPosts() {
@@ -60,5 +60,10 @@ public class PostController {
     @DeleteMapping("/{id}")
     public void deletePost(@PathVariable long id) {
         postService.deletePost(id);
+    }
+
+    @GetMapping("/title")
+    public List<Post> getPostByTitle(@RequestParam String title) {
+        return postService.getPostByTitle(title);
     }
 }

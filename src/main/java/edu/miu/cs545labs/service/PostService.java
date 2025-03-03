@@ -7,7 +7,7 @@ import java.util.List;
 public interface PostService {
     List<Post> getAllPosts();
     Post getPostById(long id);
-    Post getPostByTitle(String title);
+    List<Post> getPostByTitle(String title);
     Post updatePost(long id, Post post);
     void deletePost(long id);
 }
