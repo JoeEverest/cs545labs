@@ -1,20 +1,48 @@
 package edu.miu.cs545labs.service.impl;
 
 import edu.miu.cs545labs.domain.Post;
+import edu.miu.cs545labs.domain.Role;
 import edu.miu.cs545labs.domain.User;
+import edu.miu.cs545labs.repository.RoleRepo;
 import edu.miu.cs545labs.repository.UserRepo;
 import edu.miu.cs545labs.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
+    
+    @Autowired
+    private RoleRepo roleRepo;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    @Transactional
+    public User createUser(User user) {
+        // Encode password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        // Set default role as USER
+        Role userRole = roleRepo.findByRole("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Default role not found"));
+        user.setRoles(List.of(userRole));
+        
+        // Initialize empty posts list
+        user.setPosts(new ArrayList<>());
+        
+        return userRepo.save(user);
+    }
+
 
     @Override
     public List<User> getAllUsers() {
@@ -25,12 +53,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User getUserById(long id) {
         return userRepo.findById(id).orElse(null);
-    }
-
-    @Override
-    @Transactional
-    public User createUser(User user) {
-        return userRepo.save(user);
     }
 
     @Override

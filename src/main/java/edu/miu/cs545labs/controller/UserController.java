@@ -12,9 +12,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
+    
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @PostMapping("/register")
+    public User registerUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
 
     @GetMapping()
     public List<User> getAllUsers() {
